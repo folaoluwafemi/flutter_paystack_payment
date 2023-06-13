@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart' as view;
 
 String? response = "nulll";
+
 Future<String?> value() async {
   // if (response!.isEmpty) {
   //   return "";
@@ -14,7 +15,7 @@ Future<String?> value() async {
 }
 
 // /*  */
-class WebView extends StatelessWidget {
+class WebView extends StatefulWidget {
   final String url;
 
   // const WebView(Key? key) : super(key: key);
@@ -22,31 +23,38 @@ class WebView extends StatelessWidget {
   const WebView({required this.url, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    view.WebViewController? controller;
+  State<WebView> createState() => _WebViewState();
+}
 
-    void readResponse() async {
-      // setState(() {
-      controller!
-          .runJavascriptReturningResult(
-              "document.getElementById('return').innerText")
-          .then((value) async {
-        // if (value == "null ") {
-        //   response =
-        //       "{\"status\":\"requery\",\"message\":\"Reaffirm Transaction Status on Server\"}";
-        // } else {
-        response = response!.length > 7 ? response : value;
-        // }
-      });
-    }
+class _WebViewState extends State<WebView> {
+  view.WebViewController? controller;
+
+  void readResponse() async {
+    // setState(() {
+    controller!
+        .runJavascriptReturningResult(
+            "document.getElementById('return').innerText")
+        .then((value) async {
+      // if (value == "null ") {
+      //   response =
+      //       "{\"status\":\"requery\",\"message\":\"Reaffirm Transaction Status on Server\"}";
+      // } else {
+      response = response!.length > 7 ? response : value;
+      // }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
 // value contains the html data of page as string
 
     // );
     // WebView(    )
     return view.WebView(
-      initialUrl: url,
+      initialUrl: widget.url,
       onWebViewCreated: (controller) {
         controller = controller;
+        readResponse();
       },
       javascriptMode: view.JavascriptMode.unrestricted,
       gestureNavigationEnabled: true,
