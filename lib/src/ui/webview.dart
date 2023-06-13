@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart' as view;
 
-String? response = "nulll";
+String? response = "null";
 Future<String?> value() async {
   // if (response!.isEmpty) {
   //   return "";
